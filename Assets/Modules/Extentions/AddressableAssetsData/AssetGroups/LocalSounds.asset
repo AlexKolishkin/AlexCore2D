@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: LocalSounds
+  m_EditorClassIdentifier: 
+  m_GroupName: LocalSounds
+  m_Data:
+    m_SerializedData: []
+  m_GUID: ec229f4cae7750448ac4fea0dd8eba5e
+  m_SerializeEntries:
+  - m_GUID: 0e39e9afad77cb54db470140ea3ae3eb
+    m_Address: CancelClip
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 8300000, guid: 0e39e9afad77cb54db470140ea3ae3eb, type: 3}
+    m_TargetAsset: {fileID: 8300000, guid: 0e39e9afad77cb54db470140ea3ae3eb, type: 3}
+  - m_GUID: 85b265578a1de46409c707ece3e312b8
+    m_Address: ClickClip
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 8300000, guid: 85b265578a1de46409c707ece3e312b8, type: 3}
+    m_TargetAsset: {fileID: 8300000, guid: 85b265578a1de46409c707ece3e312b8, type: 3}
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 72ff77ebd373f23448a7208bf9b7d27f, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 3bd59946c31666d499fbd64a99c91a6f, type: 2}
+    - {fileID: 11400000, guid: 7a1e0ff744d597844bd9cd5bdbc559d7, type: 2}

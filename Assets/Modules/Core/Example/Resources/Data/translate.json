@@ -1,0 +1,4 @@
+[
+  {"id": "name_id", "ru" : "Имя", "en" : "Name"},
+  {"id": "test_id", "ru" : "Пример локальзованной строки", "en" : "Expamle translated string"}
+]

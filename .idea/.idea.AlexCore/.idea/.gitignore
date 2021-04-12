@@ -1,0 +1,13 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/projectSettingsUpdater.xml
+/contentModel.xml
+/.idea.AlexCore.iml
+/modules.xml
+# Datasource local storage ignored files
+/../../../../../../../:\Home\Work\AlexCore\.idea\.idea.AlexCore\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
