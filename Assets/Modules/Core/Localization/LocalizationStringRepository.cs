@@ -7,8 +7,7 @@ namespace Core.Localization
 {
 	public class LocalizationStringRepository : ILocalizationRepository
 	{
-		private readonly Dictionary<uint, string> _frequentSubcache = new Dictionary<uint, string>();
-		private readonly Dictionary<uint, string> _strings = new Dictionary<uint, string>();
+		private readonly Dictionary<string, string> _strings = new Dictionary<string, string>();
 		private string _file = string.Empty;
 
 		private ISettingFileProvider _fileProvider;
@@ -37,39 +36,19 @@ namespace Core.Localization
 
 				foreach (var item in listItems)
 				{
-					var jenkinsID = Utils.Utils.JenkinsOneAtATimeHash(item.id);
-					if (_strings.ContainsKey(jenkinsID))
-						Debug.LogWarning($"string => {item.id} has repeated jenkins id => {jenkinsID}");
+					if (_strings.ContainsKey(item.id))
+						Debug.LogWarning($"string => {item.id} has repeated");
 					else
-						_strings.Add(jenkinsID, item.GetString(Language));
+						_strings.Add(item.id, item.GetString(Language));
 				}
 
 				IsLoaded = true;
 			}
 		}
-		
-		public string GetString(uint id)
-		{
-			if (_strings.ContainsKey(id)) return _strings[id];
-
-			return string.Empty;
-		}
-
-		public string GetFrequentString(string key)
-		{
-			var id = Utils.Utils.JenkinsOneAtATimeHash(key);
-			if (!_frequentSubcache.ContainsKey(id))
-			{
-				_frequentSubcache.Add(id, GetString(id));
-			}
-
-			return _frequentSubcache.TryGet(id);
-		}
 
 		public string GetString(string key)
 		{
-			var id = Utils.Utils.JenkinsOneAtATimeHash(key);
-			if (_strings.ContainsKey(id)) return _strings[id];
+			if (_strings.ContainsKey(key)) return _strings[key];
 
 			Debug.LogError($"not found string with key => {key}");
 			return key;

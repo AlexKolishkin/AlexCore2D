@@ -9,22 +9,6 @@ namespace Core.Utils
     {
         public static readonly DateTime startDate = new DateTime(1970, 1, 1);
 
-        public static uint JenkinsOneAtATimeHash(string str)
-        {
-            uint hash = 0;
-            for (var i = 0; i < str.Length; ++i)
-            {
-                hash += str[i];
-                hash += hash << 10;
-                hash ^= hash >> 6;
-            }
-
-            hash += hash << 3;
-            hash ^= hash >> 11;
-            hash += hash << 15;
-            return hash;
-        }
-
         public static double Clamp01(double value)
         {
             if (value < 0)
