@@ -6,12 +6,11 @@ using Core.Scene;
 using Core.Sprites;
 using Core.GameState;
 using Core.View;
-using System;
 using Zenject;
 using Core.Analytic;
 using Core.Alert;
 
-namespace Core.Bootstrap
+namespace Core
 {
 	public class BootstrapInstaller : MonoInstaller
 	{

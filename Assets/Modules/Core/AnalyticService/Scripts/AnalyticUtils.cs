@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Core.analytic
+namespace Core.Analytic
 {
 	public static class AnalyticUtils
 	{

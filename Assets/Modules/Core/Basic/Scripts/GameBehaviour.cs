@@ -1,5 +1,4 @@
-﻿using Core.Bootstrap;
-using Core.View;
+﻿using Core.View;
 using Zenject;
 
 namespace Core
