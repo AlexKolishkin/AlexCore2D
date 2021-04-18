@@ -17,10 +17,13 @@ namespace Core
 			Init();
 		}
 
-		private void Init()
+		protected void Init()
 		{
-			BootstrapInstaller.InjectBehaviour(this);
-			Initialized = true;
+			if (!Initialized)
+			{
+				BootstrapInstaller.InjectBehaviour(this);
+				Initialized = true;
+			}
 		}
 	}
 }

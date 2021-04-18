@@ -5,6 +5,7 @@ namespace Core.View
 	{
 		public virtual void Setup(T data)
 		{
+			Init();
 			Collector.Dispose();
 			Appear();
 		}
