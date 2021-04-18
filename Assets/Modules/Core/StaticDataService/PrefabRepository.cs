@@ -7,7 +7,7 @@ using Core.Addressable;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using UniRx.Async;
-namespace Core.Resource
+namespace Core.StaticData
 {
 	public class LoadingResourceRepository<T, V> : ILoadingRepository<T, V> where V : Object
 	{

@@ -1,4 +1,4 @@
-﻿namespace Core.Resource
+﻿namespace Core.StaticData
 {
 	public interface IRepository
 	{

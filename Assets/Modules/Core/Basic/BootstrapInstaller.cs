@@ -1,7 +1,7 @@
 ﻿using Core.Addressable;
 using Core.Audio;
 using Core.Localization;
-using Core.Resource;
+using Core.StaticData;
 using Core.Scene;
 using Core.Sprites;
 using Core.GameState;
@@ -17,7 +17,6 @@ namespace Core.Bootstrap
 	{
 		private static DiContainer _diContainer;
 
-		[Obsolete]
 		public static void InjectBehaviour(GameBehaviour behaviour)
 		{
 			_diContainer.Inject(behaviour);
@@ -44,7 +43,7 @@ namespace Core.Bootstrap
 		private void BindServices()
 		{
 			Container.BindInterfacesAndSelfTo<CoroService>().AsSingle();
-			Container.BindInterfacesAndSelfTo<ResourceService>().AsSingle();
+			Container.BindInterfacesAndSelfTo<StaticDataService>().AsSingle();
 			Container.BindInterfacesAndSelfTo<SaveService>().AsSingle();
 			Container.BindInterfacesAndSelfTo<LifeCycleService>().AsSingle();
 			Container.BindInterfacesAndSelfTo<AddressableService>().AsSingle();
@@ -74,7 +73,7 @@ namespace Core.Bootstrap
 		private void InitExecutionOrder()
 		{
 			Container.BindInitializableExecutionOrder<CoroService>(-100);
-			Container.BindInitializableExecutionOrder<ResourceService>(-90);
+			Container.BindInitializableExecutionOrder<StaticDataService>(-90);
 			Container.BindInitializableExecutionOrder<SaveService>(-80);
 			Container.BindInitializableExecutionOrder<LifeCycleService>(-70);
 

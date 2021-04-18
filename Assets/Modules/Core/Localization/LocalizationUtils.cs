@@ -1,15 +1,15 @@
-﻿using Core.Resource;
+﻿using Core.StaticData;
 using UnityEngine;
 
 namespace Core.Localization
 {
 	public static class LocalizationUtils
 	{
-		private static ResourceService _resourceService;
+		private static StaticDataService _staticDataService;
 
-		public static void Init(ResourceService resourceService)
+		public static void Init(StaticDataService StaticDataService)
 		{
-			_resourceService = resourceService;
+			_staticDataService = StaticDataService;
 		}
 		
 		public static string GetLocalizedString(this string key)
@@ -20,7 +20,7 @@ namespace Core.Localization
 				return "string is null";
 			}
 
-			var result = _resourceService.Localization.GetString(key);
+			var result = _staticDataService.Localization.GetString(key);
 			return result;
 		}
 	}

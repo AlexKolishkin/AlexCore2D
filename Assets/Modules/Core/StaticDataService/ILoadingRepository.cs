@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Core.Resource
+namespace Core.StaticData
 {
 	public interface ILoadingRepository<T, V> where V : Object
 	{

@@ -1,4 +1,4 @@
-﻿using Core.Resource;
+﻿using Core.StaticData;
 
 public class TestDataExample : IId
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace Core.Resource
+namespace Core.StaticData
 {
 	public interface ISettingFileProvider
 	{
@@ -14,7 +14,7 @@ namespace Core.Resource
 	{
 		public string GetFile(string fileName)
 		{
-			var path = Path.Combine(Application.persistentDataPath, Path.Combine(ResourceService.JsonFolderPath, fileName));
+			var path = Path.Combine(Application.persistentDataPath, Path.Combine(StaticDataService.JsonFolderPath, fileName));
 			return File.ReadAllText(path);
 		}
 	}
@@ -31,7 +31,7 @@ namespace Core.Resource
 	{
 		public string GetFile(string fileName)
 		{
-			return Resources.Load<TextAsset>(Path.Combine(ResourceService.JsonFolderPath, fileName)).text;
+			return Resources.Load<TextAsset>(Path.Combine(StaticDataService.JsonFolderPath, fileName)).text;
 		}
 	}
 }

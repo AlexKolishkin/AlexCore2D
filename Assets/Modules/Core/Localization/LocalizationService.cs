@@ -1,6 +1,6 @@
 ﻿using Core;
 using Core.Attributes;
-using Core.Resource;
+using Core.StaticData;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -14,17 +14,17 @@ namespace Core.Localization
 
 		public ReactiveProperty<SystemLanguage> CurrentLanguage { get; set; } = new ReactiveProperty<SystemLanguage>();
 
-		private ResourceService _resourceService;
+		private StaticDataService _staticDataService;
 		
 		[Inject]
-		public LocalizationService(ResourceService resourceService)
+		public LocalizationService(StaticDataService resourceService)
 		{
-			_resourceService = resourceService;
+			_staticDataService = resourceService;
 		}
 
 		public void Initialize()
 		{
-			LocalizationUtils.Init(_resourceService);
+			LocalizationUtils.Init(_staticDataService);
 
 			ChangeLanguage(CurrentLanguage.Value);
 			Debug.Log("LocalizationService Initialized");
@@ -38,7 +38,7 @@ namespace Core.Localization
 
 		public void ChangeLanguage(SystemLanguage language)
 		{
-			_resourceService.Localization.Setup(language);
+			_staticDataService.Localization.Setup(language);
 			CurrentLanguage.Value = language;
 		}
 	}

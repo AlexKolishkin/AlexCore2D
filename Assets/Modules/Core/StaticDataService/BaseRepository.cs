@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core.Resource
+namespace Core.StaticData
 {
 	public class CollectionRepository<TV> : IRepository where TV : IId
 	{

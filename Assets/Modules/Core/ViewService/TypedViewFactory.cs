@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 using Core.Addressable;
-using Core.Resource;
+using Core.StaticData;
 
 namespace Core.View
 {

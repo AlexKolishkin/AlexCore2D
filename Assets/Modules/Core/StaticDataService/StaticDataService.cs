@@ -2,9 +2,9 @@
 using UnityEngine;
 using Zenject;
 
-namespace Core.Resource
+namespace Core.StaticData
 {
-	public class ResourceService : IService, IInitializable, ILoading
+	public class StaticDataService : IService, IInitializable, ILoading
 	{
 		public LoadingState LoadingState { get; private set; }
 

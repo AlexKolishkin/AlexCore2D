@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Core.Resource;
+using Core.StaticData;
 using Newtonsoft.Json;
 using UnityEngine;
 

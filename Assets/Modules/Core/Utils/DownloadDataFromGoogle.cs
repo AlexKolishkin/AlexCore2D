@@ -7,7 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
-using Core.Resource;
+using Core.StaticData;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -28,7 +28,7 @@ public class DownloadDataFromGoogle
 
     public static List<DownloadData> Datas = new List<DownloadData>
     {
-        new DownloadData(ResourceService.KLocalizationFile, "0"),
+        new DownloadData(StaticDataService.KLocalizationFile, "0"),
     };
     
     

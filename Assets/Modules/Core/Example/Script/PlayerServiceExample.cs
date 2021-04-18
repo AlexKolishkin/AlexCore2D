@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Core.Attributes;
-using Core.Resource;
+using Core.StaticData;
 using UnityEngine;
 using UniRx;
 using Zenject;
@@ -15,12 +15,12 @@ public class PlayerServiceExample : IService, IAutoPersistent
 
 	public Subject<int> ScoreStream { get; } = new Subject<int>();
 
-	private ResourceService _resourceService;
+	private StaticDataService _staticDataService;
 
 	[Inject]
-	public PlayerServiceExample(ResourceService resourceService)
+	public PlayerServiceExample(StaticDataService staticDataService)
 	{
-		_resourceService = resourceService;
+		_staticDataService = staticDataService;
 	}
 
 	public void OnLoaded()
@@ -38,7 +38,7 @@ public class PlayerServiceExample : IService, IAutoPersistent
 
 	public string GetRandomName()
 	{
-		var names = _resourceService.TestRepository.Data.Values.ToList();
+		var names = _staticDataService.TestRepository.Data.Values.ToList();
 		var random = Random.Range(0, names.Count);
 		return names[random].name;
 	}
