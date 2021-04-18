@@ -30,15 +30,7 @@ namespace Core
 
 			BindViewFactory();
 
-		//	InitExecutionOrder();
-
-			//CreateLoadingGameState();
-		}
-
-		private void CreateLoadingGameState()
-		{
-			var service = Container.Resolve<IGameStateService>();
-			service.ChangeState(new BoostrapGameState());
+			//	InitExecutionOrder();
 		}
 
 		private void BindCoreServices()
