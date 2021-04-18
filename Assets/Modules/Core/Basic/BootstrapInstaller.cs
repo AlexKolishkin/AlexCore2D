@@ -30,7 +30,7 @@ namespace Core.Bootstrap
 			BindServices();
 			BindViewFactory();
 
-			InitExecutionOrder();
+		//	InitExecutionOrder();
 
 			CreateLoadingGameState();
 		}
@@ -43,7 +43,7 @@ namespace Core.Bootstrap
 
 		private void BindServices()
 		{
-			Container.BindInterfacesAndSelfTo<CoroService >().AsSingle();
+			Container.BindInterfacesAndSelfTo<CoroService>().AsSingle();
 			Container.BindInterfacesAndSelfTo<ResourceService>().AsSingle();
 			Container.BindInterfacesAndSelfTo<SaveService>().AsSingle();
 			Container.BindInterfacesAndSelfTo<LifeCycleService>().AsSingle();
@@ -71,7 +71,7 @@ namespace Core.Bootstrap
 			Container.Bind<IAlertFactory>().To<AlertFactory>().AsSingle();
 		}
 
-		private void InitExecutionOrder() 
+		private void InitExecutionOrder()
 		{
 			Container.BindInitializableExecutionOrder<CoroService>(-100);
 			Container.BindInitializableExecutionOrder<ResourceService>(-90);
@@ -79,7 +79,6 @@ namespace Core.Bootstrap
 			Container.BindInitializableExecutionOrder<LifeCycleService>(-70);
 
 			Container.BindInitializableExecutionOrder<LocalizationService>(100);
-
 		}
 	}
 }

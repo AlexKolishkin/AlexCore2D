@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Core.Analytic
 {
-	public interface IAnalyticService : IService
+	public interface IAnalyticService : IService 
 	{
 		void LogTotalAdCount(string contentType);
 	}

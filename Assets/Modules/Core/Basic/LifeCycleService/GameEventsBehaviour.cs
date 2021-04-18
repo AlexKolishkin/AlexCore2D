@@ -18,7 +18,7 @@ namespace Core
 			if (_secondSum >= 1)
 			{
 				_secondSum -= 1f;
-				LifeCycleService.SecondTick.OnNext(DateTime.Now);
+				LifeCycleService.OneSecondTick.OnNext(DateTime.Now);
 			}
 
 			if (_halfMinuteSum >= 30)

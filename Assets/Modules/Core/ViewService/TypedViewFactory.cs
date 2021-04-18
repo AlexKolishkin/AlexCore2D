@@ -20,7 +20,7 @@ namespace Core.View
 			typedViewLoadingResources =
 				new AddressableLoadingResourceRepository<ViewType, GameObject>(addressableService);
 
-			typedViewLoadingResources.AddPath(ViewType.None, "Prefabs/HeaderView");
+			typedViewLoadingResources.AddPath(ViewType.None, "None");
 			typedViewLoadingResources.AddPath(ViewType.MainMenuWindowViewExample, "MainMenuWindowViewExample");
 		}
 
@@ -41,7 +41,6 @@ namespace Core.View
 	{
 		None = 0,
 		MainMenuWindowViewExample = 1,
-		AdWindowView = 2,
 	}
 }
 

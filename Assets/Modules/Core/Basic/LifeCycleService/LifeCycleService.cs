@@ -14,7 +14,7 @@ namespace Core
 		public Subject<bool> ApplicationFocusStream { get; } = new Subject<bool>();
 		public ReactiveProperty<bool> ApplicationPause { get; } = new ReactiveProperty<bool>();
 		public Subject<bool> ApplicationQuitStream { get; } = new Subject<bool>();
-		public Subject<DateTime> SecondTick { get; } = new Subject<DateTime>();
+		public Subject<DateTime> OneSecondTick { get; } = new Subject<DateTime>();
 		public Subject<DateTime> HalfMinuteTick { get; } = new Subject<DateTime>();
 
 		public Subject<float> LateUpdateStream { get; } = new Subject<float>();
