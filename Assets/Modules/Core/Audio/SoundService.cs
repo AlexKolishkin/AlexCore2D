@@ -11,9 +11,7 @@ namespace Core.Audio
     {
 		ReactiveProperty<bool> MuteSound { get; }
 
-		void Play(string path);
-
-		void Play(string path, AudioParameters audioParameters);
+		void Play(string path, AudioParameters audioParameters = null);
 	}
 
 	public class SoundService : ISoundService
@@ -27,8 +25,7 @@ namespace Core.Audio
 		public const int MaxSoundCount = 10;
 		Stack<AudioPlayer> _sourcePool = new Stack<AudioPlayer>();
 
-		private AudioParameters _defaultParameters;
-
+		private AudioParameters _defaultParameters = new AudioParameters(false, 0.5f, 0.2f);
 
 		private IAddressableService _addressableService;
 		private IAudioPlayerFactory _audioPlayerFactory;
@@ -50,20 +47,18 @@ namespace Core.Audio
 			}
 
 			_audioClipCache = new AudioClipCache (_addressableService);
-
-			_defaultParameters.Loop = false;
-			_defaultParameters.Volume = 0.5f;
-			_defaultParameters.FadeTime = 0.2f;
 		}
 
-		public void Play(string path)
+		public void Play(string path, AudioParameters audioParameters = null) 
 		{
-			Play(path, _defaultParameters);
-		}
-
-		public void Play(string path, AudioParameters audioParameters)
-		{
-			PlayAsync(path, audioParameters);
+			if (audioParameters != null)
+			{
+				PlayAsync(path, audioParameters);
+			}
+			else
+			{
+				PlayAsync(path, _defaultParameters);
+			}
 		}
 
 		private async void PlayAsync(string path, AudioParameters audioParameters)

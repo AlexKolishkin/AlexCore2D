@@ -1,9 +1,16 @@
 namespace Core.Audio
 {
-    public struct AudioParameters
-    {
-        public float Volume;
-        public bool Loop;
-        public float FadeTime;
-    }
+	public class AudioParameters
+	{
+		public bool Loop;
+		public float Volume;
+		public float FadeTime;
+
+		public AudioParameters(bool loop, float volume, float fadeTime)
+		{
+			Loop = loop;
+			Volume = volume;
+			FadeTime = fadeTime;
+		}
+	}
 }

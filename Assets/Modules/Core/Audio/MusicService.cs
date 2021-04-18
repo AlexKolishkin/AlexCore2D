@@ -12,10 +12,8 @@ namespace Core.Audio
 	public interface IMusicService : IService
 	{
 		ReactiveProperty<bool> MuteMusic { get; }
-
-		void Play(string path);
-
-		void Play(string path, AudioParameters audioParameters);
+		
+		void Play(string path, AudioParameters audioParameters = null);
 
 		void Play(IEnumerable<string> paths);
 	}
@@ -30,8 +28,8 @@ namespace Core.Audio
 
 		private AudioPlayer _audioPlayer;
 
-		private AudioParameters _defaultLoopParameters;
-		private AudioParameters _defaultParameters;
+		private AudioParameters _defaultLoopParameters = new AudioParameters(true, 0.5f, 0.2f);
+		private AudioParameters _defaultParameters = new AudioParameters(false, 0.5f,  0.2f);
 
 		private List<string> _musicTracks = new List<string>();
 		private int _currentTrackIndex;
@@ -63,13 +61,6 @@ namespace Core.Audio
 
 			MuteMusic.Subscribe(_audioPlayer.SetMute);
 
-			_defaultLoopParameters.Loop = true;
-			_defaultLoopParameters.Volume = 0.5f;
-			_defaultLoopParameters.FadeTime = 0.2f;
-
-			_defaultParameters = _defaultLoopParameters;
-			_defaultParameters.Loop = false;
-
 			_lifeCycleService.ApplicationQuitStream.Subscribe(val => RefreshToken());
 		}
 
@@ -78,16 +69,17 @@ namespace Core.Audio
 			TaskExtension.RefreshToken(ref _cancellationTokenSource);
 		}
 
-		public void Play(string path)
-		{
-			Play(path, _defaultLoopParameters);
-		}
-
-		public async void Play(string path, AudioParameters audioParameters)
+		public async void Play(string path, AudioParameters audioParameters = null)
 		{
 			RefreshToken();
-
-			await PlayAsync(path, audioParameters, _cancellationTokenSource.Token);
+			if (audioParameters != null)
+			{
+				await PlayAsync(path, audioParameters, _cancellationTokenSource.Token);
+			}
+			else
+			{
+				await PlayAsync(path, _defaultLoopParameters, _cancellationTokenSource.Token);
+			}
 		}
 
 		public async void Play(IEnumerable<string> paths)
