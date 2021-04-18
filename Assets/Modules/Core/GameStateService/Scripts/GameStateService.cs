@@ -3,7 +3,7 @@
 namespace Core.GameState
 {
 
-	public interface IGameStateService : IService
+	public interface IGameStateService : IService, IInitializable
 	{
 		IGameState ChangeState(IGameState newState);
 	}
@@ -26,6 +26,11 @@ namespace Core.GameState
 			_gameState = new EmptyGameState();
 		}
 
+		public void Initialize()
+		{
+			ChangeState(new BoostrapGameState());
+		}
+
 		public IGameState ChangeState(IGameState newState)
 		{
 			if (!_gameState.Equals(newState))
@@ -38,5 +43,7 @@ namespace Core.GameState
 
 			return _gameState;
 		}
+
+
 	}
 }

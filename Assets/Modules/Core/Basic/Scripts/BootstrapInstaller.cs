@@ -25,12 +25,14 @@ namespace Core
 		{
 			_diContainer = Container;
 
-			BindServices();
+			BindCoreServices();
+			BindGameServices();
+
 			BindViewFactory();
 
 		//	InitExecutionOrder();
 
-			CreateLoadingGameState();
+			//CreateLoadingGameState();
 		}
 
 		private void CreateLoadingGameState()
@@ -39,26 +41,26 @@ namespace Core
 			service.ChangeState(new BoostrapGameState());
 		}
 
-		private void BindServices()
+		private void BindCoreServices()
 		{
+			Container.BindInterfacesAndSelfTo<GameStateService>().AsSingle();
 			Container.BindInterfacesAndSelfTo<CoroService>().AsSingle();
 			Container.BindInterfacesAndSelfTo<StaticDataService>().AsSingle();
 			Container.BindInterfacesAndSelfTo<SaveService>().AsSingle();
 			Container.BindInterfacesAndSelfTo<LifeCycleService>().AsSingle();
 			Container.BindInterfacesAndSelfTo<AddressableService>().AsSingle();
 			Container.BindInterfacesAndSelfTo<ViewService>().AsSingle();
-			Container.BindInterfacesAndSelfTo<GameStateService>().AsSingle();
 			Container.BindInterfacesAndSelfTo<SpriteService>().AsSingle();
 			Container.BindInterfacesAndSelfTo<LocalizationService>().AsSingle();
 			Container.BindInterfacesAndSelfTo<SceneService>().AsSingle();
-
 			Container.BindInterfacesAndSelfTo<AlertService>().AsSingle();
-			
 			Container.BindInterfacesAndSelfTo<AnalyticService>().AsSingle();
-
 			Container.BindInterfacesAndSelfTo<MusicService>().AsSingle();
 			Container.BindInterfacesAndSelfTo<SoundService>().AsSingle();
+		}
 
+		private void BindGameServices()
+		{
 			Container.BindInterfacesAndSelfTo<PlayerServiceExample>().AsSingle();
 		}
 
@@ -71,12 +73,11 @@ namespace Core
 
 		private void InitExecutionOrder()
 		{
-			Container.BindInitializableExecutionOrder<CoroService>(-100);
-			Container.BindInitializableExecutionOrder<StaticDataService>(-90);
-			Container.BindInitializableExecutionOrder<SaveService>(-80);
-			Container.BindInitializableExecutionOrder<LifeCycleService>(-70);
-
-			Container.BindInitializableExecutionOrder<LocalizationService>(100);
+			Container.BindInitializableExecutionOrder<GameStateService>(-100);
+			Container.BindInitializableExecutionOrder<CoroService>(-90);
+			Container.BindInitializableExecutionOrder<StaticDataService>(-80);
+			Container.BindInitializableExecutionOrder<SaveService>(-70);
+			Container.BindInitializableExecutionOrder<LifeCycleService>(-60);
 		}
 	}
 }
