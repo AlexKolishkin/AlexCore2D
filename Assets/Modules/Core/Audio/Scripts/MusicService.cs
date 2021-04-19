@@ -61,6 +61,8 @@ namespace Core.Audio
 
 			MuteMusic.Subscribe(_audioPlayer.SetMute);
 
+			_lifeCycleService.ApplicationPause.Subscribe(val => MuteMusic.Value = val);
+			
 			_lifeCycleService.ApplicationQuitStream.Subscribe(val => RefreshToken());
 		}
 

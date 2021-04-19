@@ -29,12 +29,14 @@ namespace Core.Audio
 
 		private IAddressableService _addressableService;
 		private IAudioPlayerFactory _audioPlayerFactory;
+		private LifeCycleService _lifeCycleService;
 
 		[Inject]
-		public SoundService(IAudioPlayerFactory audioPlayerFactory, IAddressableService addressableService)
+		public SoundService(IAudioPlayerFactory audioPlayerFactory, IAddressableService addressableService, LifeCycleService lifeCycleService)
 		{
 			_audioPlayerFactory = audioPlayerFactory;
 			_addressableService = addressableService;
+			_lifeCycleService = lifeCycleService;
 
 			Init();
 		}
@@ -47,6 +49,8 @@ namespace Core.Audio
 			}
 
 			_audioClipCache = new AddressableCache<AudioClip>(_addressableService);
+
+			_lifeCycleService.ApplicationPause.Subscribe(val => MuteSound.Value = val);
 		}
 
 		public void Play(string path, AudioParameters audioParameters = null) 
