@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using UniRx;
+using UnityEngine;
 using Zenject;
 
 namespace Core.Audio
@@ -23,7 +24,7 @@ namespace Core.Audio
 
 		private const string _baseSourceName = "Music Service Source";
 
-		private AudioClipCache  _audioClipCache;
+		private AddressableCache<AudioClip> _audioClipCache;
 
 		private AudioPlayer _audioPlayer;
 
@@ -56,7 +57,7 @@ namespace Core.Audio
 		{
 			_audioPlayer = _audioPlayerFactory.Create(_baseSourceName);
 
-			_audioClipCache = new AudioClipCache(_addressableService);
+			_audioClipCache = new AddressableCache<AudioClip>(_addressableService);
 
 			MuteMusic.Subscribe(_audioPlayer.SetMute);
 
@@ -126,9 +127,9 @@ namespace Core.Audio
 					await _audioPlayer.FadeVolume(0, token);
 				}
 
-				_audioClipCache.ReleaseClip(_audioPlayer.ClipName);
+				_audioClipCache.Release(_audioPlayer.ClipName);
 
-				var clip = await _audioClipCache.GetClip(path);
+				var clip = await _audioClipCache.GetAddressable(path);
 
 				token.ThrowIfCancellationRequested();
 

@@ -18,7 +18,7 @@ namespace Core.Audio
 	{
 		private const string _baseSourceName = "Sound Service Source";
 
-		private AudioClipCache  _audioClipCache;
+		private AddressableCache<AudioClip> _audioClipCache;
 
 		public ReactiveProperty<bool> MuteSound { get; } = new ReactiveProperty<bool>();
 
@@ -46,7 +46,7 @@ namespace Core.Audio
 				_sourcePool.Push(_audioPlayerFactory.Create(_baseSourceName));
 			}
 
-			_audioClipCache = new AudioClipCache (_addressableService);
+			_audioClipCache = new AddressableCache<AudioClip>(_addressableService);
 		}
 
 		public void Play(string path, AudioParameters audioParameters = null) 
@@ -70,7 +70,7 @@ namespace Core.Audio
 
 			AudioPlayer audioPlayer = _sourcePool.Pop();
 
-			var clip = await _audioClipCache.GetClip(path);
+			var clip = await _audioClipCache.GetAddressable(path);
 
 			audioPlayer.Play(clip, audioParameters);
 
@@ -84,7 +84,7 @@ namespace Core.Audio
 				await Task.Yield();
 			}
 
-			_audioClipCache.ReleaseClip(audioPlayer.ClipName);
+			_audioClipCache.Release(audioPlayer.ClipName);
 			_sourcePool.Push(audioPlayer);
 		}
 
