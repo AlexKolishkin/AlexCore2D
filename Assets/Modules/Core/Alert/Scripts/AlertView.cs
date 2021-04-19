@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Core.Sprites;
 using Core.View;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,11 +9,16 @@ namespace Core.Alert
 {
 	public class AlertView : GameBehaviour
 	{
-		public Sprite NewSprite, UpdateSprite, SuccessSprite, WarningSprite;
 		public Image IconImage;
 		public GameObject Content;
 
+		public const string NewSpriteName = "icon_notification_new"; 
+		public const string UpdateSpriteName = "icon_notification_update"; 
+		public const string SuccessSpriteName = "icon_notification_update";
+		public const string WarningSpriteName = "icon_notification_update";
+
 		[Inject] private AlertService _alertService;
+		[Inject] private SpriteService _spriteService;
 
 		private bool _isInit;
 
@@ -42,7 +48,7 @@ namespace Core.Alert
 			{
 				var alertType = alertData.GetAlertState(param);
 				Content.SetActive(alertType != AlertStateType.None);
-				IconImage.sprite = GetSpriteByType(alertType);
+				SetSpriteByType(alertType);
 				return alertType;
 			}
 
@@ -61,7 +67,7 @@ namespace Core.Alert
 				{
 					var alertType = alertData.GetAlertState();
 					Content.SetActive(alertType != AlertStateType.None);
-					IconImage.sprite = GetSpriteByType(alertType);
+					SetSpriteByType(alertType);
 
 					if (alertType != AlertStateType.None)
 					{
@@ -76,21 +82,23 @@ namespace Core.Alert
 			}
 		}
 
-		private Sprite GetSpriteByType(AlertStateType alertStateType)
+		private void SetSpriteByType(AlertStateType alertStateType)
 		{
 			switch (alertStateType)
 			{
 				case AlertStateType.New:
-					return NewSprite;
+					_spriteService.SetSpriteSingle(IconImage, NewSpriteName);
+					break;
 				case AlertStateType.Update:
-					return UpdateSprite;
+					_spriteService.SetSpriteSingle(IconImage, UpdateSpriteName);
+					break;
 				case AlertStateType.Finish:
-					return SuccessSprite;
+					_spriteService.SetSpriteSingle(IconImage, SuccessSpriteName);
+					break;
 				case AlertStateType.Warning:
-					return WarningSprite;
+					_spriteService.SetSpriteSingle(IconImage, WarningSpriteName);
+					break;
 			}
-
-			return null;
 		}
 	}
 }
