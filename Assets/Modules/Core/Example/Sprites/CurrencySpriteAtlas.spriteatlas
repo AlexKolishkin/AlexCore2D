@@ -35,7 +35,11 @@ SpriteAtlas:
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites: []
-  m_PackedSpriteNamesToIndex: []
+  m_PackedSprites:
+  - {fileID: 21300000, guid: b062d2159c9d3e348b46bcb136457a50, type: 3}
+  - {fileID: 21300000, guid: c71def752a061a24a8f06e417e6bb642, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - CoinCurrency
+  - HeartCurrency
   m_Tag: CurrencySpriteAtlas
   m_IsVariant: 0

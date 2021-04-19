@@ -20,7 +20,7 @@ namespace Core.Addressable
 			_addressableService = addressableService;
 		}
 
-		public async Task<T> GetAddressable(string path)
+		public async Task<T> GetItem(string path)
 		{
 			if (_cachedCount.ContainsKey(path))
 			{

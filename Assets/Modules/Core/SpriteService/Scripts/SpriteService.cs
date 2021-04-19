@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Core.Addressable;
 using Core.View;
+using UniRx;
 using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
@@ -11,22 +12,35 @@ namespace Core.Sprites
 {
 	public class SpriteService : ISpriteService
 	{
+		private AddressableCache<Sprite> _spriteCache;
+
 		private IAddressableService _addressableService;
+
+		private Dictionary<AtlasType, SpriteAtlasData> _atlasesData = new Dictionary<AtlasType, SpriteAtlasData>();
 
 		[Inject]
 		public SpriteService(IAddressableService addressableService)
 		{
 			_addressableService = addressableService;
-		}
-		
-		private Dictionary<AtlasType, string> Paths = new Dictionary<AtlasType, string>
-		{
-			{AtlasType.ResourcesIcon, "ResourceIcons"},
-		};
+			_spriteCache = new AddressableCache<Sprite>(_addressableService);
 
-		public void SetSprite(Image image, AtlasType atlasType, string key)
+			SetupAtlasesData();
+		}
+
+		private void SetupAtlasesData()
 		{
-			LoadSpriteFromAtlas(image, atlasType, key);
+			_atlasesData[AtlasType.CurrencyIcon] = new SpriteAtlasData("CurrencySpriteAtlas");
+		}
+
+		public IDisposable SetSpriteSingle(Image image, string key)
+		{
+			SetAloneSprite(image, key);
+			return Disposable.Create(() => { _spriteCache.Release(key); });
+		}
+
+		public void SetSprite(Image image, CurrencyIconType iconType)
+		{
+			LoadSpriteFromAtlas(image, AtlasType.CurrencyIcon, iconType.GetSpriteName());
 		}
 
 		#region Missing sprite
@@ -54,103 +68,51 @@ namespace Core.Sprites
 
 		#endregion
 
-		#region ResourceIcons
-
-		private SpriteAtlas _resourceIconsAtlas;
-
-		public void SetSprite(Image image, ResourceIconType type)
-		{
-			SetSprite(image, AtlasType.ResourcesIcon, type.GetSpriteName());
-		}
-
-		#endregion
-
 		#region Implementation
 
-		private void LoadSpriteFromAtlas(Image image, AtlasType atlasType, string spriteName, string defaultSprite = "",
-			Action<Sprite> onResult = null)
+		private async void LoadSpriteFromAtlas(Image image, AtlasType atlasType, string spriteName, string defaultSprite = "")
 		{
-			var atlas = GetAtlas(atlasType);
-
-			if (!image)
+			if (!_atlasesData.ContainsKey(atlasType))
 			{
-				onResult?.Invoke(_missingSprite);
+				Debug.LogError($"AtlasData for atlasType [{atlasType}] is null");
 				return;
 			}
 
-			if (!atlas)
+			SpriteAtlasData atlasData = _atlasesData[atlasType];
+
+			if (atlasData.Handle == null)
 			{
-				var color = image.color;
-				image.color = new Color(1, 1, 1, 0);
-
-				var path = Paths[atlasType];
-
-				_addressableService.LoadAsync<SpriteAtlas>(path, onComplete: handle =>
-				{
-					Sprite resultSprite = _missingSprite;
-
-					if (handle.IsValid())
-					{
-						atlas = handle.Result;
-					}
-
-					if (atlas != null)
-					{
-						SetAtlas(atlas, atlasType);
-						resultSprite = atlas.GetSprite(spriteName);
-						if (resultSprite == null && !string.IsNullOrEmpty(defaultSprite))
-						{
-							resultSprite = atlas.GetSprite(defaultSprite);
-						}
-
-						if (resultSprite == null)
-						{
-							resultSprite = _missingSprite;
-						}
-					}
-
-					image.sprite = resultSprite;
-					image.color = color;
-					onResult?.Invoke(resultSprite);
-				});
+				LoadAtlas(atlasType);
 			}
-			else
-			{
-				var sprite = atlas.GetSprite(spriteName);
-				if (sprite == null && string.IsNullOrEmpty(defaultSprite))
-				{
-					sprite = atlas.GetSprite(defaultSprite);
-				}
 
-				if (sprite == null)
-				{
-					sprite = _missingSprite;
-				}
+			await atlasData.Handle.Task;
 
-				image.sprite = sprite;
-				onResult?.Invoke(sprite);
-			}
+			image.sprite = GetSpriteFromAtlas(atlasData.Atlas, spriteName, defaultSprite);
 		}
+	
 
-		private void PreloadAtlas(AtlasType atlasType)
+		private async void SetAloneSprite(Image image, string key)
 		{
-			var atlas = GetAtlas(atlasType);
-			var path = Paths[atlasType];
-			if (atlas == null)
+			var sprite = await _spriteCache.GetItem(key);
+			var color = image.color;
+			image.color = new Color(1, 1, 1, 0);
+			if (image != null)
 			{
-				_addressableService.LoadAsync<SpriteAtlas>(path, handle =>
-				{
-					if (handle.IsValid())
-					{
-						atlas = handle.Result;
-					}
-
-					SetAtlas(atlas, atlasType);
-				});
+				image.sprite = sprite;
+				image.color = color;
 			}
 		}
 
-		private Sprite GetSpriteFromAtlas(SpriteAtlas atlas, string spriteName)
+		private void LoadAtlas(AtlasType atlasType)
+		{
+			var atlasData = _atlasesData[atlasType];
+			if (atlasData.Handle == null)
+			{
+				_atlasesData[atlasType].Handle = _addressableService.LoadAsync<SpriteAtlas>(atlasData.Path);
+			}
+		}
+
+		private Sprite GetSpriteFromAtlas(SpriteAtlas atlas, string spriteName, string defaultSpriteName = "")
 		{
 			if (atlas == null)
 			{
@@ -160,33 +122,29 @@ namespace Core.Sprites
 
 			var sprite = atlas.GetSprite(spriteName);
 
-			if (Application.isEditor && !sprite)
+			if (sprite != null)
+			{
+				return sprite;
+			}
+			else
 			{
 				Debug.LogError($"No |{spriteName}| sprite in {atlas.name}");
-				return _missingSprite;
+
+				if (!string.IsNullOrEmpty(defaultSpriteName))
+				{
+					var defaultSprite = atlas.GetSprite(defaultSpriteName);
+
+					if (defaultSprite != null)
+					{
+						return defaultSprite;
+					}
+					else
+					{
+						Debug.LogError($"No default sprite |{defaultSpriteName}| in {atlas.name}");
+					}
+				}
 			}
-
-			return sprite;
-		}
-
-		private SpriteAtlas GetAtlas(AtlasType atlasType)
-		{
-			switch (atlasType)
-			{
-				case AtlasType.ResourcesIcon: return _resourceIconsAtlas;
-			}
-
-			return null;
-		}
-
-		private void SetAtlas(SpriteAtlas atlas, AtlasType atlasType)
-		{
-			switch (atlasType)
-			{
-				case AtlasType.ResourcesIcon:
-					_resourceIconsAtlas = atlas;
-					break;
-			}
+			return _missingSprite;
 		}
 
 		#endregion
@@ -194,6 +152,6 @@ namespace Core.Sprites
 
 	public enum AtlasType
 	{
-		ResourcesIcon,
+		CurrencyIcon
 	}
 }

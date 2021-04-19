@@ -129,7 +129,7 @@ namespace Core.Audio
 
 				_audioClipCache.Release(_audioPlayer.ClipName);
 
-				var clip = await _audioClipCache.GetAddressable(path);
+				var clip = await _audioClipCache.GetItem(path);
 
 				token.ThrowIfCancellationRequested();
 

@@ -1,26 +1,19 @@
-using System;
+﻿using Core.Addressable;
 using UnityEngine;
+using UnityEngine.U2D;
 
 namespace Core.Sprites
 {
-    public static class AtlasUtils
-    {
-        public static string GetSpriteName(this ResourceIconType type)
-        {
-            switch (type)
-            {
-                case ResourceIconType.Money: return "CoinCurrency";
-                case ResourceIconType.Hearts: return "HeartCurrency";
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
-        }
-    }
+	public class SpriteAtlasData
+	{
+		public string Path;
+		public SpriteAtlas Atlas => Handle.Result;
 
+		public AddressableUtils.AsyncOperationHandleDisposable<SpriteAtlas> Handle;
 
-    public enum ResourceIconType
-    {
-        Money,
-        Hearts,
-    }
+		public SpriteAtlasData(string path)
+		{
+			Path = path;
+		}
+	}
 }

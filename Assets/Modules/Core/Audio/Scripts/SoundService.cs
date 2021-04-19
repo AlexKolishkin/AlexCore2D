@@ -70,7 +70,7 @@ namespace Core.Audio
 
 			AudioPlayer audioPlayer = _sourcePool.Pop();
 
-			var clip = await _audioClipCache.GetAddressable(path);
+			var clip = await _audioClipCache.GetItem(path);
 
 			audioPlayer.Play(clip, audioParameters);
 

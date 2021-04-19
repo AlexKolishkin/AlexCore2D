@@ -1,8 +1,8 @@
 ﻿namespace Core.Sprites
 {
-	public class ResourceIconsFromAtlas : SpriteFromAtlas
+	public class CurrencyIconsFromAtlas : SpriteFromAtlas
 	{
-		public ResourceIconType IconType;
+		public CurrencyIconType IconType;
 
 		private void OnEnable()
 		{
