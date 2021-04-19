@@ -10,14 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Packed Assets
+  m_Name: LocalAlertSprite
   m_EditorClassIdentifier: 
-  m_GroupName: Packed Assets
+  m_GroupName: LocalAlertSprite
   m_Data:
     m_SerializedData: []
   m_GUID: adba10c75f315fb43aba70eb79f7ac36
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: d29d6372117b842409a6152edc7201d9
+    m_Address: icon_notification_update
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 2800000, guid: d29d6372117b842409a6152edc7201d9, type: 3}
+    m_TargetAsset: {fileID: 2800000, guid: d29d6372117b842409a6152edc7201d9, type: 3}
+  - m_GUID: d4f322fde821be645aa78f0ca085f999
+    m_Address: icon_notification_new
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 2800000, guid: d4f322fde821be645aa78f0ca085f999, type: 3}
+    m_TargetAsset: {fileID: 2800000, guid: d4f322fde821be645aa78f0ca085f999, type: 3}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 72ff77ebd373f23448a7208bf9b7d27f, type: 2}
   m_SchemaSet:
-    m_Schemas: []
+    m_Schemas:
+    - {fileID: 11400000, guid: 707b3e3970425814f81757e03bcda334, type: 2}
+    - {fileID: 11400000, guid: 5024360274f507442a356ee8507624eb, type: 2}
